@@ -67,8 +67,9 @@ a {
 }
 .navbar {
   height: 78px;
-  width: min(100% - 48px, 1460px);
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
+  padding: 0 max(24px, calc((100vw - 1380px) / 2));
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -135,7 +136,8 @@ a {
   transition: 0.25s;
 }
 .nav-links a:hover,
-.nav-links a.active {
+.nav-links a.active,
+.nav-about.active {
   color: white;
   border-color: rgba(86, 174, 255, 0.25);
   background: rgba(53, 145, 221, 0.07);
@@ -1003,7 +1005,8 @@ em {
     width: min(100% - 32px, 1380px);
   }
   .navbar {
-    width: calc(100% - 32px);
+    width: 100%;
+    padding-inline: 16px;
   }
   .brand-name {
     font-size: 13px;

@@ -15,6 +15,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="img/Cortex-logo-CL.png" type="image/png" />
   </head>
   <body>
     <div class="ambient ambient-1"></div>
@@ -483,6 +484,82 @@
       document.querySelector(".menu-toggle").addEventListener("click", () => {
         document.querySelector(".nav-links").classList.toggle("open");
       });
+
+      const navLinks = [...document.querySelectorAll(".nav-links a")];
+      const navAbout = document.querySelector(".nav-about");
+      const sectionIds = [
+        "inicio",
+        "solucoes",
+        "funciona",
+        "projetos",
+        "processo",
+        "sobre",
+        "contato",
+      ];
+
+      function setActiveNavigation(id) {
+        navLinks.forEach((link) => {
+          const isActive = link.getAttribute("href") === `#${id}`;
+          link.classList.toggle("active", isActive);
+          if (isActive) {
+            link.setAttribute("aria-current", "page");
+          } else {
+            link.removeAttribute("aria-current");
+          }
+        });
+
+        const isAboutSection = id === "sobre";
+        navAbout.classList.toggle("active", isAboutSection);
+        if (isAboutSection) {
+          navAbout.setAttribute("aria-current", "page");
+        } else {
+          navAbout.removeAttribute("aria-current");
+        }
+      }
+
+      navLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+          setActiveNavigation(link.getAttribute("href").slice(1));
+          document.querySelector(".nav-links").classList.remove("open");
+        });
+      });
+
+      navAbout.addEventListener("click", () => {
+        setActiveNavigation("sobre");
+      });
+
+      function updateNavigationFromScroll() {
+        const sections = [
+          "inicio",
+          "funciona",
+          "solucoes",
+          "projetos",
+          "processo",
+          "sobre",
+        ]
+          .map((id) => document.getElementById(id))
+          .filter(Boolean);
+
+        let currentId = "inicio";
+        sections.forEach((section) => {
+          const top = section.getBoundingClientRect().top;
+          const currentTop = document
+            .getElementById(currentId)
+            .getBoundingClientRect().top;
+
+          if (top <= 160 && top > currentTop) {
+            currentId = section.id;
+          }
+        });
+
+        setActiveNavigation(currentId);
+      }
+
+      window.addEventListener("scroll", updateNavigationFromScroll, {
+        passive: true,
+      });
+
+      setActiveNavigation(location.hash.slice(1) || "inicio");
     </script>
   </body>
 </html>
